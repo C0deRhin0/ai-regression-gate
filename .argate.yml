@@ -1,0 +1,28 @@
+project:
+  name: ai-regression-gate
+components:
+  gate:
+    paths: ["src/**", "tests/**", "pyproject.toml", ".argate*", ".github/**", "Dockerfile"]
+    tests: [core]
+  appointment-service:
+    paths: ["examples/**", "scripts/**"]
+    tests: [demo]
+test_groups:
+  core:
+    command: "python -m pytest tests --cov=argate --cov-report=xml:coverage.xml -q"
+    required: true
+    timeout_seconds: 180
+  demo:
+    command: "python scripts/demo.py --report-dir reports/demo"
+    required: true
+    timeout_seconds: 120
+coverage:
+  enabled: true
+  format: cobertura
+  path: coverage.xml
+  minimum: 80
+quality_gates:
+  require_all_required_tests: true
+  block_on_high_risk_without_tests: true
+ai:
+  mode: deterministic_only
