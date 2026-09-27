@@ -1,0 +1,30 @@
+project:
+  name: my-service
+components:
+  backend:
+    paths: ["backend/**"]
+    tests: [unit-backend, integration-backend]
+  auth:
+    paths: ["backend/auth/**"]
+    tests: [security-tests]
+test_groups:
+  unit-backend:
+    command: "python -m pytest tests/unit -q"
+    required: true
+    timeout_seconds: 120
+  integration-backend:
+    command: "python -m pytest tests/integration -q"
+    required: true
+    timeout_seconds: 180
+  security-tests:
+    command: "python -m pytest tests/security -q"
+    required: true
+    timeout_seconds: 120
+quality_gates:
+  require_all_required_tests: true
+  block_on_high_risk_without_tests: true
+  warnings_as_errors: false
+ai:
+  mode: deterministic_only
+security:
+  sensitive_paths: ["private/**"]
