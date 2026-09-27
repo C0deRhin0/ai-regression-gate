@@ -1,0 +1,32 @@
+name: Regression Gate
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    name: Release readiness
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[dev,demo]'
+      - run: argate config validate
+      - name: Evaluate PR head against target
+        env:
+          ARGATE_BASE: ${{ github.event.pull_request.base.sha }}
+          ARGATE_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: argate evaluate --base "$ARGATE_BASE" --head "$ARGATE_HEAD" --no-ai --report-dir reports
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: regression-gate-reports
+          path: reports/
+          if-no-files-found: warn
