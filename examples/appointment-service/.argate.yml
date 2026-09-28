@@ -1,0 +1,22 @@
+project:
+  name: appointment-service
+components:
+  scheduling:
+    paths: ["backend/**"]
+    tests: [scheduling-regression]
+test_groups:
+  scheduling-regression:
+    command: "python -m pytest tests -q"
+    required: true
+    timeout_seconds: 30
+risk_rules:
+  - paths: ["backend/app.py"]
+    severity: high
+    category: scheduling
+    description: Appointment validation changed
+    suggested_test: Reject duplicate appointments for the same provider and time
+quality_gates:
+  require_all_required_tests: true
+  block_on_high_risk_without_tests: true
+ai:
+  mode: deterministic_only
