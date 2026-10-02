@@ -1,0 +1,92 @@
+# Release Readiness Report
+
+## Decision
+
+{% if report.gate_decision.status == 'READY' %}READY FOR STAGING{% else %}{{ report.gate_decision.status }}{% endif %}
+{% if report.metadata.operation != 'evaluate' %}
+Operation: {{ report.metadata.operation }} — this is not a release evaluation.
+{% endif %}
+{% for reason in report.gate_decision.reasons %}
+- {{ reason | cell }}
+{% endfor %}
+
+## Change Summary
+
+- {{ report.change_summary.changed_files | length }} files changed; +{{ report.change_summary.insertions }}/-{{ report.change_summary.deletions }}
+- Components: {{ report.affected_components | join(', ') or 'none' }}
+- Overall deterministic risk: {{ report.overall_risk | upper }}
+
+| Path | Status | Components | Sensitive |
+|---|---|---|---|
+{% for file in report.change_summary.changed_files %}| {{ file.path | cell }} | {{ file.status }} | {{ file.components | join(', ') | cell }} | {{ file.sensitive }} |
+{% endfor %}
+
+## Why These Tests Ran
+
+| Test Group | Reason | Required | Command |
+|---|---|---|---|
+{% for group in report.selected_tests %}| {{ group.name | cell }} | {{ group.reasons | join('; ') | cell }} | {{ group.required }} | {{ group.command | cell }} |
+{% endfor %}
+
+## Results
+
+| Group | Result | Passed / Failed / Skipped | Duration | Exit code |
+|---|---|---|---|---|
+{% for result in report.test_results %}| {{ result.group | cell }} | {{ result.status }} | {{ result.passed if result.passed is not none else '?' }} / {{ result.failed if result.failed is not none else '?' }} / {{ result.skipped if result.skipped is not none else '?' }} | {{ result.duration }}s | {{ result.exit_code }} |
+{% endfor %}
+
+Coverage: {{ report.coverage.current if report.coverage.current is not none else 'not available' }}{% if report.coverage.current is not none %}%{% endif %}
+{% for result in report.test_results if result.status not in ['PASS', 'SKIPPED'] %}
+### Failure: {{ result.group | cell }}
+
+<pre>{{ (result.stdout_tail + '\n' + result.stderr_tail) | e }}</pre>
+{% endfor %}
+
+## Risks Identified
+{% for finding in report.risk_findings %}
+### {{ finding.severity | title }} — {{ finding.description | cell }}
+
+Source: {{ finding.source }}; affected: {{ finding.file | cell }}
+
+Evidence: {{ finding.evidence | cell }}
+
+Suggested verification: {{ finding.suggested_test | cell }}
+{% endfor %}
+
+## Quality Gates
+{% for gate in report.gate_decision.quality_gate_results %}
+- [{{ 'x' if gate.passed else ' ' }}] {{ gate.name | cell }}: {{ gate.detail | cell }} ({{ 'blocking' if gate.blocking else 'advisory' }})
+{% endfor %}
+
+## AI Analysis
+
+Mode: {{ report.ai_analysis_metadata.mode }}; provider: {{ report.ai_analysis_metadata.provider }}; status: {{ report.ai_analysis_metadata.status }}
+
+{{ report.ai_analysis_metadata.detail | cell }}
+
+{{ report.ai_analysis_metadata.summary | cell }}
+{% for case in report.ai_analysis_metadata.edge_cases %}
+- {{ case | cell }}
+{% endfor %}
+
+## Security
+
+Redaction triggered: {{ report.security_metadata.redaction_triggered }}
+
+Excluded files: {{ report.security_metadata.excluded_files | join(', ') | cell or 'none' }}
+
+Candidate included files: {{ report.security_metadata.included_files | join(', ') | cell or 'none' }}
+
+External AI allowed by guard: {{ report.security_metadata.external_ai_allowed }}; payload truncated: {{ report.security_metadata.payload_truncated }}
+
+## Audit Metadata
+
+- Evaluation: {{ report.metadata.evaluation_id }}
+- Generated: {{ report.metadata.timestamp }}
+- Base: {{ report.change_summary.base_sha }}
+- Head: {{ report.change_summary.head_sha }}
+- Configuration hash: {{ report.metadata.configuration_hash }}
+- Project: {{ report.metadata.project | cell }}
+- Schema: {{ report.schema_version }}; tool: {{ report.metadata.version }}
+
+This is an engineering audit trail, not a regulatory certification.
