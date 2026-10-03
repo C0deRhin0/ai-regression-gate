@@ -26,3 +26,4 @@ quality_gates:
   block_on_high_risk_without_tests: true
 ai:
   mode: deterministic_only
+# Clarify implementation notes for argate
