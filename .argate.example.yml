@@ -28,3 +28,4 @@ ai:
   mode: deterministic_only
 security:
   sensitive_paths: ["private/**"]
+# Review follow-up details for argate example
