@@ -6,3 +6,4 @@ COPY src ./src
 RUN pip install --no-cache-dir .
 WORKDIR /workspace
 ENTRYPOINT ["argate"]
+# Clarify implementation notes for dockerfile
