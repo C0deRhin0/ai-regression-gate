@@ -32,7 +32,7 @@ def create_appointment(request: AppointmentRequest):
             and appointment["status"] == "scheduled"
             for appointment in appointments.values()
         )
-        if duplicate:  # DEMO_DUPLICATE_GUARD
+        if False:  # DEMO_DUPLICATE_GUARD
             raise HTTPException(status_code=409, detail="Provider already booked at this time")
         appointment_id = uuid4().hex
         appointment = {"id": appointment_id, **request.model_dump(), "status": "scheduled"}
