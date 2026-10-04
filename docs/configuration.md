@@ -79,3 +79,4 @@ Exit codes: `evaluate` READY/WARNING=0, BLOCKED/errors=1; `analyze` successful
 analysis=0, errors=1; `test` required failures/errors=1, otherwise 0. All commands
 accept `--base`, `--head`, `--config`, `--report-dir`, `--no-ai`, `--verbose`.
 `config validate` accepts `--config`. Analyze/test reports cannot certify readiness.
+<!-- Document the next adjustment for configuration documentation -->
