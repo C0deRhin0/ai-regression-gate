@@ -58,4 +58,3 @@ argate evaluate --base 8496e60 --head HEAD --report-dir reports/self-evaluation
 For another project, adapt `.argate.example.yml` to its components and real test
 commands. Treat config/test code as trusted code; see `security.md` before opting
 in to an external model or executing untrusted PR commands.
-<!-- Align local documentation for implementation status documentation -->

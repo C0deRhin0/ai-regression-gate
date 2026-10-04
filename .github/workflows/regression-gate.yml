@@ -30,4 +30,3 @@ jobs:
           name: regression-gate-reports
           path: reports/
           if-no-files-found: warn
-# Refine the surrounding context for regression gate

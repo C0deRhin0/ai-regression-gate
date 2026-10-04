@@ -1610,4 +1610,3 @@ auditable reporting
 ```
 
 That is the product.
-<!-- Review follow-up details for ai regression gate implementation plan documentation -->

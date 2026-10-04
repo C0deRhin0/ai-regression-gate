@@ -15,4 +15,3 @@ appointments include an ID and `status: scheduled`. Duplicate provider/time retu
 Storage is in-memory, protected by a lock, and resets when the process restarts.
 Use the repository's `python scripts/demo.py` for an isolated regression/fix run
 with real commits and reports. See `docs/demo.md` for the full walkthrough.
-<!-- Review follow-up details for project documentation -->

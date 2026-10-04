@@ -44,4 +44,3 @@ IDs, timestamps, durations and captured command output naturally differ. Schema
 version `1.0` identifies the JSON contract; future incompatible changes must bump
 it. Coverage uses a fresh Cobertura report produced during this evaluation and
 an optional supplied baseline, not historical analytics.
-<!-- Refine the surrounding context for architecture documentation -->

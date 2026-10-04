@@ -26,4 +26,3 @@ To use this gate in a different repository, install the package and replace test
 commands/component paths with that repository's checks. Preserve a full checkout,
 use environment variables for SHA arguments, and install the languages/test tools
 the configured commands require. No staging deployment is performed by this tool.
-<!-- Clarify implementation notes for github actions documentation -->
