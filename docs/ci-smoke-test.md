@@ -12,3 +12,8 @@ evaluation, Markdown/JSON artifacts, and a visible job summary.
 The same PR is used to verify an intentional appointment-validation regression
 returns a failed required check before the original validation is restored.
 Only the restored, passing version is eligible for merging.
+
+The root gate also runs the appointment regression tests directly. This ensures
+an already-broken fixture produces explicit duplicate-booking assertion failures
+in the parent PR report, even when the isolated demo cannot create its expected
+baseline/regression commits.
