@@ -47,3 +47,4 @@ checks continue. An explicit availability policy may block, but AI never overrid
 required failures. Report output is bounded; unknown secret formats remain a
 limitation of pattern-based sanitization. Reports are engineering evidence, not
 regulatory certification.
+<!-- Capture a cleanup item for security documentation -->
