@@ -40,3 +40,4 @@ python -m uvicorn backend.app:app --reload
 
 Explore `/docs`. This in-memory API is only a test fixture. Close with:
 “The release authority is explicit policy and executed tests; AI supplies context.”
+<!-- Review follow-up details for demo documentation -->
