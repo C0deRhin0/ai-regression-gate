@@ -23,6 +23,13 @@ assertions (duplicate provider/time and equivalent timezone), with seven passing
 appointment tests. The original validation is restored in the final PR revision.
 Only the restored, passing version is eligible for merging.
 
+The restored version passed all hosted checks, with nine appointment tests, 82
+core tests, the isolated demo, 97.97% coverage, and a READY decision:
+
+https://github.com/C0deRhin0/ai-regression-gate/actions/runs/37205784732
+
+https://github.com/C0deRhin0/ai-regression-gate/actions/runs/37205784621
+
 The root gate also runs the appointment regression tests directly. This ensures
 an already-broken fixture produces explicit duplicate-booking assertion failures
 in the parent PR report, even when the isolated demo cannot create its expected
