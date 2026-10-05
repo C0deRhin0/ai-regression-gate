@@ -13,7 +13,7 @@ outside the required scope.
 | 4 Policy | READY/WARNING/BLOCKED, deterministic reasons, coverage and exit codes | Policy matrix and CLI tests for all states |
 | 5 Reports | Markdown, JSON schema version, IDs, hashes, commands/results/audit metadata | All-state report assertions, secret exclusion checks |
 | 6 AI | Deterministic provider, Ollama, OpenAI-compatible adapter, sanitized structured advice | Mock responses, actual local HTTP transport, malformed/timeouts/unavailable/redirect tests; fallback gate equivalence |
-| 7 CI | PR head checkout, Python setup, install/validate/evaluate, summary, always-upload artifacts | Local CLI summary/exit-code tests and reproducible CI demo commands; hosted run requires a GitHub repository |
+| 7 CI | PR head checkout, Python setup, install/validate/evaluate, summary, always-upload artifacts, required check on main | Hosted main/PR CI passed; intentional regression produced a failed check and BLOCKED merge state; restored PR passed |
 | 8 Demo/polish | FastAPI appointment service, temporary Git regression/fix commits, demo script, docs and README diagram | Fresh-clone installation and full demo; duplicate regression FAIL/BLOCKED/1 and fix PASS/READY/0 |
 
 ## Verified results
@@ -25,33 +25,40 @@ outside the required scope.
   validation, full suite, full demo, and self-evaluation passed.
 - Built wheel installed as a non-editable package in a separate environment;
   the packaged report template and both demo outcomes worked.
-- Self-evaluation: core PASS (82 tests), demo PASS, coverage 97.97%, decision READY.
+- Self-evaluation: appointment-regression PASS (9 tests), core PASS (82 tests),
+  demo PASS, coverage 97.97%, decision READY.
 - Demo: duplicate regression FAIL (2 failed, 7 passed), BLOCKED/exit 1; restored
   validation PASS (9 passed), READY/exit 0. Both changed only the application file.
 - No real credentials were added; synthetic secret strings exist only to test the
   redaction boundary. No `.env`, key, or credential files are tracked.
 
 Local evidence is retained under `reports/self-evaluation`, `reports/demo`,
-`reports/wheel-demo`, and `reports/packaging` (ignored by Git). Repeat verification:
+`reports/wheel-demo`, `reports/packaging`, and `reports/hosted-verification` (ignored
+by Git). Hosted run links and branch-rule details are in `ci-smoke-test.md`.
+Repeat verification on a committed feature branch:
 
 ```bash
 ruff check .
 python -m pytest --cov=argate --cov-report=xml --cov-fail-under=80 -q
 python scripts/demo.py
-argate evaluate --base 8496e60 --head HEAD --report-dir reports/self-evaluation
+git fetch origin
+argate evaluate --base origin/main --head HEAD --report-dir reports/self-evaluation
 ```
 
-## Remaining user-side setup
+## Repository setup completed
 
-1. Publish this `codebase` Git repository to your intended GitHub remote. There is
-   no remote/account target supplied in this workspace, so nothing was pushed.
-2. Enable GitHub Actions if needed, open a PR to `main`, then require the
-   `Release readiness` check in branch rules. The included workflow produces the
-   check; GitHub repository settings cannot be configured locally.
-3. Optional: start Docker Desktop and build the provided Dockerfile. The local
+The repository is published at https://github.com/C0deRhin0/ai-regression-gate.
+Actions is enabled. PR #1 verified green, intentional red, and restored green
+results, including downloaded report artifacts. Main requires a PR and an
+up-to-date successful `Release readiness` check from GitHub Actions, including
+for admins. Direct appointment tests are now included in the root gate.
+
+## Optional setup
+
+1. Optional: start Docker Desktop and build the provided Dockerfile. The local
    Docker daemon was stopped during implementation, so a container build/run was
    not verified here. Package installation and tests were verified independently.
-4. Optional: choose/install a local model, or explicitly opt in to an external
+2. Optional: choose/install a local model, or explicitly opt in to an external
    provider and set its API key environment variable. The complete deterministic
    workflow and demo require neither a model nor credentials.
 

@@ -6,8 +6,13 @@ components:
     tests: [core]
   appointment-service:
     paths: ["examples/**", "scripts/**"]
-    tests: [demo]
+    tests: [appointment-regression, demo]
 test_groups:
+  appointment-regression:
+    command: "cd examples/appointment-service && python -m pytest tests -q"
+    required: true
+    timeout_seconds: 30
+    component: appointment-service
   core:
     command: "python -m pytest tests --cov=argate --cov-report=xml:coverage.xml -q"
     required: true
