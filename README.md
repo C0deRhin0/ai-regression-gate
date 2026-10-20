@@ -87,3 +87,11 @@ The example [GitHub Actions workflow](.github/workflows/regression-gate.yml) eva
 ## License
 
 [MIT](LICENSE).
+
+## Captures
+
+Actual regression/fix demo output, presented as an evidence page.
+
+![AI Regression Gate: Actual regression/fix demo output, presented as an evidence page.](docs/screenshots/desktop.webp)
+
+Full capture descriptions and provenance: [captures.json](docs/screenshots/captures.json).
