@@ -1,0 +1,14 @@
+{
+  "project": "AI Regression Gate",
+  "kind": "CLI evidence",
+  "note": "Actual regression/fix demo output, presented as an evidence page.",
+  "capturedAt": "2026-10-23T05:41:28.294Z",
+  "screens": [
+    {
+      "file": "desktop.webp",
+      "caption": "AI Regression Gate: Actual regression/fix demo output, presented as an evidence page.",
+      "width": 1440,
+      "height": 1000
+    }
+  ]
+}
